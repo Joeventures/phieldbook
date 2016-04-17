@@ -44,7 +44,6 @@ class PhieldBook {
 
 	private function build_session() {
 		$this->ch = curl_init();
-		curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($this->ch, CURLOPT_USERPWD, $this->api_key . ":" . $this->api_secret);
 		curl_setopt($this->ch, CURLOPT_URL, $this->url);
