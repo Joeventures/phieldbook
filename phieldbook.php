@@ -39,6 +39,7 @@ class PhieldBook {
 			$this->$key = $value;
 		}
 		$this->url = implode( '/', array('https://api.fieldbook.com/v1', $this->book_id, $this->table, $this->record_id ));
+		$this->url = rtrim($this->url, '/');
 		$this->build_session();
 	}
 
