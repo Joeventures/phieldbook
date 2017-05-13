@@ -10,7 +10,7 @@
  */
 class PhieldBook {
 
-	public $url;
+	private $url;
 	public $api_key;
 	public $api_secret;
 	public $book_id;
@@ -38,12 +38,10 @@ class PhieldBook {
 		foreach($args as $key => $value) {
 			$this->$key = $value;
 		}
-		$this->url = implode( '/', array('https://api.fieldbook.com/v1', $this->book_id, $this->table, $this->record_id ));
-		$this->url = rtrim($this->url, '/');
-		$this->build_session();
 	}
 
 	private function build_session() {
+		$this->set_url();
 		$this->ch = curl_init();
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($this->ch, CURLOPT_USERPWD, $this->api_key . ":" . $this->api_secret);
@@ -60,12 +58,18 @@ class PhieldBook {
 		return json_decode($this->session, true);
 	}
 
+	private function set_url() {
+		$this->url = implode( '/', array('https://api.fieldbook.com/v1', $this->book_id, $this->table, $this->record_id ));
+		$this->url = rtrim($this->url, '/');
+	}
+
 	/**
 	 * Retrieve a record or a set of records
 	 *
 	 * @return array An associative array if $record_id is specified, or else an array of arrays
 	 */
 	public function get() {
+		$this->build_session();
 		$this->exec_session();
 		return $this->session_result();
 	}
@@ -78,6 +82,7 @@ class PhieldBook {
 	 * @return array An associative array of matching records
 	 */
 	public function search($params) {
+		$this->build_session();
 		$this->url .= "?";
 		$this->url .= http_build_query($params);
 		curl_setopt($this->ch, CURLOPT_URL, $this->url);
@@ -93,6 +98,7 @@ class PhieldBook {
 	 * @return array An associative array of the resulting record
 	 */
 	public function create($params) {
+		$this->build_session();
 		$fields_string = json_encode($params);
 		curl_setopt($this->ch, CURLOPT_POST, count($params));
 		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $fields_string);
@@ -109,6 +115,7 @@ class PhieldBook {
 	 * @return array An associative array of the updated record
 	 */
 	public function update($params) {
+		$this->build_session();
 		$fields_string = json_encode($params);
 		curl_setopt($this->ch, CURLOPT_POSTFIELDS, $fields_string);
 		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
@@ -123,6 +130,7 @@ class PhieldBook {
 	 * @return integer The HTTP Code 204
 	 */
 	public function delete() {
+		$this->build_session();
 		curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 		$this->exec_session();
 		return $this->response_info['http_code'];
