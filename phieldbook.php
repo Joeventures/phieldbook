@@ -1,9 +1,9 @@
 <?php
 
 /**
- * A basic PHP Class for the Fieldbook API
+ * A basic PHP client for the Fieldbook API
  *
- * Includes methods for basic CRUD capabilities. $this->response_info gives detailed information about the session result.
+ * Includes methods for basic CRUD capabilities and to retrieve metadata about Fieldbook books, sheets and fields. $this->response_info gives detailed information about the session result.
  *
  * @package PhieldBook
  * @author Joe Winter
@@ -177,18 +177,33 @@ class PhieldBook {
 		return $this->response_info['http_code'];
 	}
 
+	/**
+	 * Retrieve basic information about a book.
+	 *
+	 * @return array An array with the book's id, title, and url.
+	 */
 	public function book_meta() {
 		$this->build_meta_session('books');
 		$this->exec_session();
 		return $this->session_result();
 	}
 
+	/**
+	 * Retrieve information about the sheets in a book.
+	 *
+	 * @return array An array of sheets, with each sheet's id, title, slug, and url.
+	 */
 	public function sheet_meta() {
 		$this->build_meta_session('sheets');
 		$this->exec_session();
 		return $this->session_result();
 	}
 
+	/**
+	 * Retrieve information about the fields in a sheet. The instance's $sheet_id must be set.
+	 *
+	 * @return array An array of fields, with each field's key, name, slug, fieldType, and inputType. If a field is required, the boolean value "required" will also be returned. If a fieldType is picklist, an "enum" array will also be returned.
+	 */
 	public function field_meta() {
 		$this->build_meta_session('fields');
 		$this->exec_session();

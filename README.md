@@ -1,7 +1,9 @@
 # Phieldbook
-## A basic PHP Class for the Fieldbook API
+## A basic PHP client for the Fieldbook API
 
-This class offers basic CRUD capabilities for using the [Fieldbook](https://fieldbook.com/) API with PHP.
+Fieldbook is a cloud-based database with a spreadsheet-like interface. This client for the Fieldbook API is not an "official" Fieldbook client, and it is not affiliated with Fieldbook, Inc.
+
+
 
 ## Examples
 
