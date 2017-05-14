@@ -17,6 +17,10 @@ class PhieldBook {
 	public $table;
 	public $record_id;
 	public $response_info;
+	public $limit;
+	public $offset;
+	public $include = array();
+	public $exclude = array();
 
 	private $session;
 	private $ch;
@@ -61,6 +65,26 @@ class PhieldBook {
 	private function set_url() {
 		$this->url = implode( '/', array('https://api.fieldbook.com/v1', $this->book_id, $this->table, $this->record_id ));
 		$this->url = rtrim($this->url, '/');
+		if(strlen($this->limit) > 0 || strlen($this->offset) > 0) {
+			if(strpos($this->url, '?') == false) $this->url .= "?";
+			$params = array();
+			if(strlen($this->limit) > 0) $params['limit'] = $this->limit;
+			if(strlen($this->offset) > 0) $params['offset'] = $this->offset;
+			$this->url .= http_build_query($params);
+		}
+		if(count($this->include) > 0 || count($this->exclude) > 0) {
+			if(strpos($this->url, '?')) $this->url .= "&";
+			else $this->url .= "?";
+			if(count($this->include) > 0 && count($this->exclude) == 0) {
+				$fields = implode(",", $this->include);
+				$params = array('include' => $fields);
+				$this->url .= http_build_query($params);
+			} elseif(count($this->exclude) > 0 && count($this->include) == 0) {
+				$fields = implode(",", $this->exclude);
+				$params = array('exclude' => $fields);
+				$this->url .= http_build_query($params);
+			}
+		}
 	}
 
 	/**
