@@ -10,12 +10,11 @@
  */
 class PhieldBook {
 
-	private $url;
 	public $api_key;
 	public $api_secret;
 	public $book_id;
 	public $sheet_id;
-	public $table;
+	public $sheet_title;
 	public $record_id;
 	public $response_info;
 	public $limit;
@@ -23,6 +22,7 @@ class PhieldBook {
 	public $include = array();
 	public $exclude = array();
 
+	private $url;
 	private $session;
 	private $ch;
 
@@ -31,11 +31,6 @@ class PhieldBook {
 	 *
 	 * 'api_key'    => string Your Fieldbook API key
 	 * 'api_secret' => string Your Fieldbook API secret
-	 * 'book_id'    => string The ID of the book
-	 * 'table'      => string The name of the sheet
-	 * 'record_id'  => string The individual record ID number
-	 *                  optional for get()
-	 *                  necessary for update() and delete()
 	 *
 	 * @param array $args (see above)
 	 */
@@ -79,7 +74,7 @@ class PhieldBook {
 		} elseif($meta == 'fields') {
 			$this->url = "https://api.fieldbook.com/v1/sheets/{$this->sheet_id}/fields";
 		} else {
-			$this->url = implode( '/', array('https://api.fieldbook.com/v1', $this->book_id, $this->table, $this->record_id ));
+			$this->url = implode( '/', array('https://api.fieldbook.com/v1', $this->book_id, $this->sheet_title, $this->record_id ));
 			$this->url = rtrim($this->url, '/');
 			if(strlen($this->limit) > 0 || strlen($this->offset) > 0) {
 				if(strpos($this->url, '?') == false) $this->url .= "?";
