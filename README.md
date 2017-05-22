@@ -44,7 +44,7 @@ exclude | An Array of fields to exclude | (optional) `get()` and `search()`
 
 ## Methods
 
-### get
+### `get()`
 
 Returns all records in a book. Or, set the following properties to return a subset of records:
 
@@ -150,7 +150,7 @@ array(3) {
 }
 ```
 
-### search
+### `search(array $params)`
 
 Returns a set of records matching any search criteria specified in the parameters. Note: a query on a linked field is matched against the display string of the linked cells.
 
@@ -201,7 +201,7 @@ array(6) {
 }
 ```
 
-### create
+### `create(array $params)`
 
 Creates a new record and returns the result.
 
@@ -250,7 +250,7 @@ array(5) {
 }
 ```
 
-### update
+### `update(array $params)`
 
 Update an existing record. Ensure the `record_id` property is set.
 
@@ -298,7 +298,7 @@ array(5) {
 }
 ```
 
-### delete
+### `delete()`
 
 Delete an existing record.
 
@@ -326,7 +326,7 @@ Result:
 int(204)
 ```
 
-### book_meta
+### `book_meta()`
 
 Retrieve information about a book.
 
@@ -357,7 +357,7 @@ array(3) {
 }
 ```
 
-### sheet_meta
+### `sheet_meta()`
 
 Retrieve information about the sheets in a book.
 
@@ -403,7 +403,7 @@ array(2) {
 }
 ```
 
-### field_meta
+### `field_meta()`
 
 Retrieve information about the fields in a sheet.
 
